@@ -13,7 +13,6 @@
 5. [了解專案結構](#5-了解專案結構)
 6. [啟動開發伺服器](#6-啟動開發伺服器)
 7. [常用指令](#7-常用指令)
-8. [Git 提交流程](#8-git-提交流程)
 
 ---
 
@@ -115,20 +114,82 @@ cd angular-fundamentals-quiz
 
 ## 5. 了解專案結構
 
+![專案結構](docs/project-structure.png)
+
 ```
 angular-fundamentals-quiz/
+├── .vscode/
+│   └── extensions.json
+├── public/
+│   └── favicon.ico
 ├── src/
 │   ├── app/
-│   │   ├── app.component.ts      # 根元件（邏輯）
-│   │   ├── app.component.html    # 根元件（模板）
-│   │   ├── app.component.css     # 根元件（樣式）
-│   │   └── app.config.ts         # 應用程式設定（路由、providers）
-│   ├── index.html                # HTML 進入點
-│   └── main.ts                   # 啟動程式
-├── angular.json                  # Angular CLI 設定
-├── package.json                  # npm 套件清單
-└── tsconfig.json                 # TypeScript 設定
+│   │   ├── app.config.ts
+│   │   ├── app.css
+│   │   ├── app.html
+│   │   ├── app.routes.ts
+│   │   ├── app.spec.ts
+│   │   └── app.ts
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+├── .editorconfig
+├── .gitignore
+├── .prettierrc
+├── angular.json
+├── package-lock.json
+├── package.json
+├── tsconfig.app.json
+├── tsconfig.json
+└── tsconfig.spec.json
 ```
+
+### 各檔案說明
+
+**`src/app/`** — 應用程式核心，主要開發工作都在這裡
+
+| 檔案 | 功能 |
+|------|------|
+| `app.ts` | 根元件邏輯，整個應用程式的起點元件 |
+| `app.html` | 根元件的 HTML 模板 |
+| `app.css` | 根元件的樣式，只作用於此元件 |
+| `app.config.ts` | 應用程式層級設定，包含路由、providers 等注入設定 |
+| `app.routes.ts` | 定義所有頁面路由規則 |
+| `app.spec.ts` | 根元件的單元測試檔案 |
+
+**`src/`** — 應用程式進入點
+
+| 檔案 | 功能 |
+|------|------|
+| `index.html` | 唯一的 HTML 頁面，Angular 渲染結果會注入至此 |
+| `main.ts` | 程式啟動點，呼叫 `bootstrapApplication` 啟動 Angular |
+| `styles.css` | 全域樣式，作用於整個應用程式 |
+
+**`public/`** — 靜態資源
+
+| 檔案 | 功能 |
+|------|------|
+| `favicon.ico` | 瀏覽器分頁上顯示的小圖示 |
+
+**專案根目錄** — 設定檔
+
+| 檔案 | 功能 |
+|------|------|
+| `angular.json` | Angular CLI 設定，包含建置、測試、lint 的各項參數 |
+| `package.json` | npm 套件清單，記錄專案依賴與可執行的指令 |
+| `package-lock.json` | 鎖定所有套件的確切版本，確保每台機器安裝結果一致 |
+| `tsconfig.json` | TypeScript 編譯設定（基底） |
+| `tsconfig.app.json` | 繼承基底設定，針對應用程式原始碼的編譯設定 |
+| `tsconfig.spec.json` | 繼承基底設定，針對測試檔案的編譯設定 |
+| `.editorconfig` | 統一不同編輯器的縮排、換行等格式設定 |
+| `.prettierrc` | Prettier 程式碼排版規則 |
+| `.gitignore` | 指定不需要上傳至 Git 的檔案與資料夾 |
+
+**`.vscode/`** — VS Code 設定
+
+| 檔案 | 功能 |
+|------|------|
+| `extensions.json` | 推薦安裝的 VS Code 擴充套件清單 |
 
 ---
 
@@ -166,45 +227,6 @@ ng g c quiz        # 建立 quiz 元件
 ng g c quiz/question  # 在 quiz 目錄下建立 question 元件
 ```
 
----
-
-## 8. Git 提交流程
-
-### 哪些檔案應該 commit？
-
-| 類型 | 檔案 | 是否 commit |
-|------|------|:-----------:|
-| 必要 | `src/`、`angular.json`、`package.json`、`tsconfig*.json`、`public/` | ✅ |
-| 必要 | `package-lock.json` | ✅（鎖定版本，確保多台機器安裝一致） |
-| 建議 | `.editorconfig`、`.prettierrc`、`.vscode/extensions.json` | ✅ |
-| 不需要 | `.claude/`、`.gemini/`、`CLAUDE.md`、`.vscode/launch.json` 等 AI / 個人 IDE 設定 | ❌ |
-| 禁止 | `node_modules/`、`dist/` | ❌（已由 `.gitignore` 排除） |
-
-### 如何只 commit 指定檔案
-
-```bash
-# 方式 1：指定單一檔案
-git add src/app/app.ts
-
-# 方式 2：指定資料夾
-git add src/
-
-# 方式 3：互動式逐一確認每個變更
-git add -p
-```
-
-> 根本解法：將不需要追蹤的檔案加入 `.gitignore`，之後 `git add .` 就會自動過濾。
-
-### 移除已追蹤但不想追蹤的檔案
-
-```bash
-# 從 git 移除追蹤，但保留本機檔案
-git rm --cached <檔案路徑>
-
-# 接著更新 .gitignore，避免之後又被加入
-# 最後 commit 變更
-git commit -m "chore: untrack <檔案名稱>"
-```
 
 ---
 
