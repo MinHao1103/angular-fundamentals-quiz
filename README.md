@@ -119,77 +119,30 @@ cd angular-fundamentals-quiz
 ```
 angular-fundamentals-quiz/
 ├── .vscode/
-│   └── extensions.json
+│   └── extensions.json          // 推薦安裝的 VS Code 擴充套件清單
 ├── public/
-│   └── favicon.ico
+│   └── favicon.ico              // 瀏覽器分頁上顯示的小圖示
 ├── src/
 │   ├── app/
-│   │   ├── app.config.ts
-│   │   ├── app.css
-│   │   ├── app.html
-│   │   ├── app.routes.ts
-│   │   ├── app.spec.ts
-│   │   └── app.ts
-│   ├── index.html
-│   ├── main.ts
-│   └── styles.css
-├── .editorconfig
-├── .gitignore
-├── .prettierrc
-├── angular.json
-├── package-lock.json
-├── package.json
-├── tsconfig.app.json
-├── tsconfig.json
-└── tsconfig.spec.json
+│   │   ├── app.config.ts        // 應用程式層級設定，包含路由、providers 等注入設定
+│   │   ├── app.css              // 根元件的樣式，只作用於此元件
+│   │   ├── app.html             // 根元件的 HTML 模板
+│   │   ├── app.routes.ts        // 定義所有頁面路由規則
+│   │   ├── app.spec.ts          // 根元件的單元測試檔案
+│   │   └── app.ts               // 根元件邏輯，整個應用程式的起點元件
+│   ├── index.html               // 唯一的 HTML 頁面，Angular 渲染結果會注入至此
+│   ├── main.ts                  // 程式啟動點，呼叫 bootstrapApplication 啟動 Angular
+│   └── styles.css               // 全域樣式，作用於整個應用程式
+├── .editorconfig                // 統一不同編輯器的縮排、換行等格式設定
+├── .gitignore                   // 指定不需要上傳至 Git 的檔案與資料夾
+├── .prettierrc                  // Prettier 程式碼排版規則
+├── angular.json                 // Angular CLI 設定，包含建置、測試、lint 的各項參數
+├── package-lock.json            // 鎖定所有套件的確切版本，確保每台機器安裝結果一致
+├── package.json                 // npm 套件清單，記錄專案依賴與可執行的指令
+├── tsconfig.app.json            // 繼承基底設定，針對應用程式原始碼的編譯設定
+├── tsconfig.json                // TypeScript 編譯設定（基底）
+└── tsconfig.spec.json           // 繼承基底設定，針對測試檔案的編譯設定
 ```
-
-### 各檔案說明
-
-**`src/app/`** — 應用程式核心，主要開發工作都在這裡
-
-| 檔案 | 功能 |
-|------|------|
-| `app.ts` | 根元件邏輯，整個應用程式的起點元件 |
-| `app.html` | 根元件的 HTML 模板 |
-| `app.css` | 根元件的樣式，只作用於此元件 |
-| `app.config.ts` | 應用程式層級設定，包含路由、providers 等注入設定 |
-| `app.routes.ts` | 定義所有頁面路由規則 |
-| `app.spec.ts` | 根元件的單元測試檔案 |
-
-**`src/`** — 應用程式進入點
-
-| 檔案 | 功能 |
-|------|------|
-| `index.html` | 唯一的 HTML 頁面，Angular 渲染結果會注入至此 |
-| `main.ts` | 程式啟動點，呼叫 `bootstrapApplication` 啟動 Angular |
-| `styles.css` | 全域樣式，作用於整個應用程式 |
-
-**`public/`** — 靜態資源
-
-| 檔案 | 功能 |
-|------|------|
-| `favicon.ico` | 瀏覽器分頁上顯示的小圖示 |
-
-**專案根目錄** — 設定檔
-
-| 檔案 | 功能 |
-|------|------|
-| `angular.json` | Angular CLI 設定，包含建置、測試、lint 的各項參數 |
-| `package.json` | npm 套件清單，記錄專案依賴與可執行的指令 |
-| `package-lock.json` | 鎖定所有套件的確切版本，確保每台機器安裝結果一致 |
-| `tsconfig.json` | TypeScript 編譯設定（基底） |
-| `tsconfig.app.json` | 繼承基底設定，針對應用程式原始碼的編譯設定 |
-| `tsconfig.spec.json` | 繼承基底設定，針對測試檔案的編譯設定 |
-| `.editorconfig` | 統一不同編輯器的縮排、換行等格式設定 |
-| `.prettierrc` | Prettier 程式碼排版規則 |
-| `.gitignore` | 指定不需要上傳至 Git 的檔案與資料夾 |
-
-**`.vscode/`** — VS Code 設定
-
-| 檔案 | 功能 |
-|------|------|
-| `extensions.json` | 推薦安裝的 VS Code 擴充套件清單 |
 
 ---
 
