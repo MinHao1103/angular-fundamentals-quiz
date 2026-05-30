@@ -13,6 +13,7 @@
 5. [了解專案結構](#5-了解專案結構)
 6. [啟動開發伺服器](#6-啟動開發伺服器)
 7. [常用指令](#7-常用指令)
+8. [Git 提交流程](#8-git-提交流程)
 
 ---
 
@@ -163,6 +164,46 @@ http://localhost:4200
 ```bash
 ng g c quiz        # 建立 quiz 元件
 ng g c quiz/question  # 在 quiz 目錄下建立 question 元件
+```
+
+---
+
+## 8. Git 提交流程
+
+### 哪些檔案應該 commit？
+
+| 類型 | 檔案 | 是否 commit |
+|------|------|:-----------:|
+| 必要 | `src/`、`angular.json`、`package.json`、`tsconfig*.json`、`public/` | ✅ |
+| 必要 | `package-lock.json` | ✅（鎖定版本，確保多台機器安裝一致） |
+| 建議 | `.editorconfig`、`.prettierrc`、`.vscode/extensions.json` | ✅ |
+| 不需要 | `.claude/`、`.gemini/`、`CLAUDE.md`、`.vscode/launch.json` 等 AI / 個人 IDE 設定 | ❌ |
+| 禁止 | `node_modules/`、`dist/` | ❌（已由 `.gitignore` 排除） |
+
+### 如何只 commit 指定檔案
+
+```bash
+# 方式 1：指定單一檔案
+git add src/app/app.ts
+
+# 方式 2：指定資料夾
+git add src/
+
+# 方式 3：互動式逐一確認每個變更
+git add -p
+```
+
+> 根本解法：將不需要追蹤的檔案加入 `.gitignore`，之後 `git add .` 就會自動過濾。
+
+### 移除已追蹤但不想追蹤的檔案
+
+```bash
+# 從 git 移除追蹤，但保留本機檔案
+git rm --cached <檔案路徑>
+
+# 接著更新 .gitignore，避免之後又被加入
+# 最後 commit 變更
+git commit -m "chore: untrack <檔案名稱>"
 ```
 
 ---
