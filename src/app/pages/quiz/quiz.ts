@@ -21,16 +21,23 @@ import { QuizService } from '../../services/quiz.service';
             [class.selected]="currentAnswer() === $index"
             [class.correct]="showAnswer() && currentQuestion().correctIndex === $index"
           >
-            <input
-              type="radio"
-              [name]="'question-' + currentIndex()"
-              [value]="$index"
-              [checked]="currentAnswer() === $index"
-              (change)="selectAnswer($index)"
-            />
-            {{ option }}
-            @if (showAnswer() && currentQuestion().correctIndex === $index) {
-              <span class="correct-badge" aria-label="正確答案">✓</span>
+            <div class="option-header">
+              <input
+                type="radio"
+                [name]="'question-' + currentIndex()"
+                [value]="$index"
+                [checked]="currentAnswer() === $index"
+                (change)="selectAnswer($index)"
+              />
+              <span class="option-text">{{ option }}</span>
+              @if (showAnswer() && currentQuestion().correctIndex === $index) {
+                <span class="correct-badge" aria-label="正確答案">✓</span>
+              }
+            </div>
+            @if (showAnswer()) {
+              <p class="option-explanation">
+                {{ currentQuestion().optionExplanations[$index] }}
+              </p>
             }
           </label>
         }
@@ -96,13 +103,44 @@ import { QuizService } from '../../services/quiz.service';
 
     .option {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      flex-direction: column;
+      gap: 0.5rem;
       padding: 1rem;
       border: 2px solid #e0e0e0;
       border-radius: 8px;
       cursor: pointer;
       transition: border-color 0.15s;
+    }
+
+    .option-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    .option-explanation {
+      margin: 0;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.825rem;
+      line-height: 1.6;
+      color: #444;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+      border-left: 3px solid #ccc;
+    }
+
+    .option.correct .option-explanation {
+      border-left-color: #2e7d32;
+      background: rgba(46, 125, 50, 0.06);
+    }
+
+    .option.selected:not(.correct) .option-explanation {
+      border-left-color: #6750a4;
+      background: rgba(103, 80, 164, 0.06);
     }
 
     .option:hover {
