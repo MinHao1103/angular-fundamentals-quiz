@@ -209,4 +209,248 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '設定 id 應使用 id="nameInput"，# 模板參照變數只在模板作用域內有效，不影響 HTML 屬性。',
     ],
   },
+
+  // 生命週期
+  {
+    question: '以下哪個是 Angular 生命週期鉤子的正確執行順序？',
+    options: [
+      'ngOnInit → ngOnChanges → ngAfterViewInit → ngOnDestroy',
+      'ngOnChanges → ngOnInit → ngAfterViewInit → ngOnDestroy',
+      'ngOnInit → ngAfterViewInit → ngOnChanges → ngOnDestroy',
+      'ngAfterViewInit → ngOnInit → ngOnChanges → ngOnDestroy',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      'ngOnChanges 必須在 ngOnInit 之前，因為它負責接收初始的 @Input() 值，ngOnInit 執行時才能安全使用這些值。',
+      '正確。ngOnChanges 在每次 @Input() 變更時觸發（包含第一次），ngOnInit 只執行一次，ngAfterViewInit 在視圖建立後執行，ngOnDestroy 在銷毀前執行。',
+      'ngOnChanges 不可能在 ngOnInit 之後，因為 ngOnInit 需要依賴 @Input() 的初始值。',
+      'ngAfterViewInit 必須在視圖建立後才執行，不可能排在最前面。',
+    ],
+  },
+  {
+    question: 'ngOnChanges 什麼時候會被呼叫？',
+    options: [
+      '元件初始化時執行一次，之後不再執行',
+      '每次 @Input() 的值（參照）發生變更時',
+      '元件視圖渲染完成後',
+      '元件銷毀前',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      'ngOnChanges 不只執行一次，每次 @Input() 參照改變都會觸發，包含第一次初始化。',
+      '正確。首次設定 @Input() 以及後續每次值改變都會觸發。若元件沒有任何 @Input()，則永遠不會被呼叫。',
+      '視圖渲染完成後執行的是 ngAfterViewInit，不是 ngOnChanges。',
+      '元件銷毀前執行的是 ngOnDestroy。',
+    ],
+  },
+  {
+    question: 'ngOnChanges(changes: ???) 的參數型別是？',
+    options: [
+      'InputChanges',
+      'ChangeDetectorRef',
+      'SimpleChanges',
+      'Record<string, any>',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      'InputChanges 並不存在於 Angular API 中。',
+      'ChangeDetectorRef 是用來手動控制變更偵測的服務，與 ngOnChanges 的參數無關。',
+      '正確。SimpleChanges 是一個物件，key 是 @Input() 屬性名稱，value 是 SimpleChange，包含 currentValue、previousValue、firstChange 三個欄位。',
+      'Angular 有明確的型別定義，使用 SimpleChanges 而非泛型 Record。',
+    ],
+  },
+  {
+    question: '以下哪種情況 ngOnChanges 不會被呼叫？',
+    options: [
+      '@Input() 從 "hello" 變為 "world"',
+      '@Input() 從 null 變為一個新物件',
+      '@Input() 物件的內部屬性被修改，但物件參照未改變',
+      '元件第一次初始化，@Input() 收到初始值',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      '字串是原始值，"hello" 和 "world" 是不同的值，Angular 可以偵測到變更，會觸發 ngOnChanges。',
+      '從 null 變為新物件，參照確實改變，Angular 可以偵測到，會觸發 ngOnChanges。',
+      '正確。Angular 以參照比較（===）判斷 @Input() 是否變更。修改物件內部屬性不改變參照，Angular 偵測不到，ngOnChanges 不會觸發。',
+      '第一次初始化時 Angular 會呼叫 ngOnChanges，SimpleChange 的 firstChange 屬性為 true。',
+    ],
+  },
+  {
+    question: '以下哪個操作應放在 ngAfterViewInit 而非 ngOnInit？',
+    options: [
+      '呼叫 API 取得初始資料',
+      '初始化表單的預設值',
+      '存取 @ViewChild 取得的 DOM 元素並操作它',
+      '訂閱路由參數的變更',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      'API 呼叫放在 ngOnInit 即可，此時依賴注入和 @Input() 都已就緒，不需要等到視圖建立。',
+      '表單初始化放在 ngOnInit 即可，不依賴 DOM 元素的存在。',
+      '正確。@ViewChild 在 ngOnInit 執行時尚未渲染，值為 undefined。ngAfterViewInit 執行時視圖已建立完成，才能安全存取 DOM 元素或子元件。',
+      '路由參數訂閱放在 ngOnInit 即可，與視圖是否建立無關。',
+    ],
+  },
+  {
+    question: 'ngOnDestroy 的主要用途是？',
+    options: [
+      '初始化元件資料',
+      '在視圖更新後執行額外邏輯',
+      '接收父元件傳入的初始 @Input() 值',
+      '清除訂閱、計時器等資源，防止記憶體洩漏',
+    ],
+    correctIndex: 3,
+    optionExplanations: [
+      '初始化元件資料應在 ngOnInit 中進行。',
+      '視圖更新後執行邏輯應在 ngAfterViewChecked 中進行。',
+      '@Input() 的初始值在 ngOnChanges 和 ngOnInit 中處理，ngOnDestroy 是元件銷毀前的最後鉤子。',
+      '正確。未清除的 Observable 訂閱和 setInterval 在元件銷毀後仍會繼續執行，造成記憶體洩漏。現代 Angular 可用 takeUntilDestroyed() 自動處理。',
+    ],
+  },
+  {
+    question: '元件使用 ChangeDetectionStrategy.OnPush，ngOnChanges 何時仍會被呼叫？',
+    options: [
+      '永遠不會被呼叫',
+      '只有在元件第一次渲染時',
+      '當 @Input() 傳入新的參照時',
+      '需要手動呼叫 ChangeDetectorRef.detectChanges() 才會觸發',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      'OnPush 不影響 ngOnChanges 的呼叫，只要 @Input() 參照改變，ngOnChanges 仍會執行。',
+      'ngOnChanges 不限於只在第一次渲染時執行，每次 @Input() 參照改變都會觸發。',
+      '正確。OnPush 以參照比較判斷輸入是否改變，傳入新參照時仍會觸發 ngOnChanges，同時也會觸發變更偵測。這也是為什麼 OnPush 搭配不可變資料效果最好。',
+      'detectChanges() 是手動觸發變更偵測，與 ngOnChanges 的呼叫時機無關。',
+    ],
+  },
+
+  // RxJS
+  {
+    question: 'Observable 與 Promise 最主要的差別是？',
+    options: [
+      'Observable 是同步的，Promise 是非同步的',
+      'Observable 可以發出多個值且是惰性的，Promise 只發出一個值且立即執行',
+      'Observable 只能在 Angular 中使用，Promise 可以在任何地方使用',
+      'Promise 的效能比 Observable 好',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      '兩者都可以是非同步的。Observable 也可以是同步的（如 of(1,2,3)），但這不是主要差別。',
+      '正確。Promise 一建立就立即執行且只 resolve 一次。Observable 是惰性的（lazy），只有訂閱後才執行，且可以持續發出多個值，例如 WebSocket 訊息或定時器。',
+      'Observable（RxJS）是獨立的函式庫，可以在任何 JavaScript 環境中使用，不限於 Angular。',
+      '效能取決於使用場景，Observable 的惰性特性在很多情況下反而更有效率，無法一概而論。',
+    ],
+  },
+  {
+    question: 'switchMap 的行為是？',
+    options: [
+      '等待前一個 Observable 完成後才訂閱下一個',
+      '同時保留所有 Observable，依完成順序發出值',
+      '切換到新 Observable 時，取消前一個尚未完成的 Observable',
+      '將所有 Observable 的值合併成陣列後一次發出',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      '等待前一個完成才訂閱下一個，這是 concatMap 的行為。',
+      '同時保留所有並依完成順序發出，這是 mergeMap 的行為。',
+      '正確。switchMap 最常用於搜尋框：每次輸入新字元就切換到新的 API 請求，自動取消前一個還沒回來的請求，避免舊回應覆蓋新結果（race condition）。',
+      '合併成陣列一次發出，這是 forkJoin 的行為。',
+    ],
+  },
+  {
+    question: 'switchMap 與 mergeMap 的主要差別是？',
+    options: [
+      'mergeMap 取消前一個請求，switchMap 不取消',
+      'switchMap 取消前一個未完成的請求，mergeMap 同時保留所有請求',
+      '兩者完全相同，只是命名不同',
+      'mergeMap 只能用於 HTTP 請求',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      '說反了。是 switchMap 取消前一個，mergeMap 不取消。',
+      '正確。mergeMap 適合多個請求可以並行且順序不重要的場景（如同時上傳多個檔案）；switchMap 適合只關心最新請求結果的場景（如搜尋）。',
+      '兩者行為完全不同，選錯 operator 可能造成 race condition 或請求遺失等 bug。',
+      'mergeMap 可用於任何 Observable，不限於 HTTP 請求。',
+    ],
+  },
+  {
+    question: '以下哪個場景最適合使用 concatMap？',
+    options: [
+      '搜尋框即時查詢，只需要最新結果',
+      '同時上傳多個檔案，不在乎順序',
+      '依序送出多筆訂單，必須前一筆完成才送下一筆',
+      '防止按鈕在請求進行中被重複點擊',
+    ],
+    correctIndex: 2,
+    optionExplanations: [
+      '搜尋框只需最新結果，應使用 switchMap 取消前一個請求。',
+      '並行上傳且不在乎順序，應使用 mergeMap 同時處理多個請求。',
+      '正確。concatMap 依序排隊，等前一個 Observable 完成才訂閱下一個，保證執行順序，適合有前後依賴的操作。',
+      '防止重複點擊應使用 exhaustMap，它在前一個請求進行中時會忽略新的觸發。',
+    ],
+  },
+  {
+    question: 'BehaviorSubject 與 Subject 的主要差別是？',
+    options: [
+      'BehaviorSubject 不能手動呼叫 .next() 發出值',
+      'BehaviorSubject 需要初始值，新訂閱者會立即收到最新的值',
+      'Subject 需要初始值，BehaviorSubject 不需要',
+      '兩者完全相同，BehaviorSubject 只是 Subject 的別名',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      'BehaviorSubject 和 Subject 一樣可以呼叫 .next() 發出新值。',
+      '正確。BehaviorSubject 有「記憶」功能，新訂閱者加入時會立即收到最後一次發出的值，適合儲存應用程式狀態（如登入狀態、使用者資料）。',
+      '說反了。需要初始值的是 BehaviorSubject，Subject 不需要初始值。',
+      '兩者行為不同，BehaviorSubject 繼承自 Subject 但增加了狀態保存功能。',
+    ],
+  },
+  {
+    question: 'ReplaySubject 與 BehaviorSubject 的差別是？',
+    options: [
+      'ReplaySubject 需要初始值，BehaviorSubject 不需要',
+      'ReplaySubject 可以重播指定數量的歷史值，BehaviorSubject 只保留最新一個值',
+      '兩者完全相同',
+      'BehaviorSubject 可以重播歷史值，ReplaySubject 不行',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      '說反了。需要初始值的是 BehaviorSubject，ReplaySubject 不需要初始值。',
+      '正確。ReplaySubject(3) 會快取最近 3 個值，新訂閱者加入時立即收到這 3 個歷史值；BehaviorSubject 只保留最新一個，且建立時必須提供初始值。',
+      '兩者行為不同，適用場景也不同。',
+      '說反了。能重播歷史值的是 ReplaySubject。',
+    ],
+  },
+  {
+    question: 'Angular 模板中使用 async pipe 的主要優點是？',
+    options: [
+      '將同步值自動轉為 Observable',
+      '自動訂閱 Observable 並在元件銷毀時自動取消訂閱',
+      '合併多個 Observable 的值為一個',
+      '快取 HTTP 請求結果，避免重複打 API',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      'async pipe 是將 Observable 的值顯示在模板中，而不是反過來將同步值轉為 Observable。',
+      '正確。手動訂閱需要在 ngOnDestroy 中取消，async pipe 自動管理訂閱生命週期，大幅減少記憶體洩漏的風險，是官方推薦做法。',
+      '合併多個 Observable 應使用 combineLatest、forkJoin 等 operator。',
+      'async pipe 不具備快取功能，每次訂閱都會重新執行。若需快取可搭配 shareReplay operator。',
+    ],
+  },
+  {
+    question: 'takeUntilDestroyed() 的用途是？',
+    options: [
+      '只取得 Observable 的前 N 個值就自動完成',
+      '在元件銷毀時自動取消訂閱，避免記憶體洩漏',
+      '將 Observable 轉換為 Promise',
+      '在 Observable 發生錯誤時自動重新訂閱',
+    ],
+    correctIndex: 1,
+    optionExplanations: [
+      '只取前 N 個值應使用 take(N) operator。',
+      '正確。Angular 16+ 提供的 operator，搭配 DestroyRef 在元件銷毀時自動完成 Observable，是比 ngOnDestroy + Subject 組合更簡潔的現代寫法。',
+      '將 Observable 轉為 Promise 應使用 firstValueFrom() 或 lastValueFrom()。',
+      '發生錯誤時重新訂閱應使用 retry() 或 retryWhen() operator。',
+    ],
+  },
 ];
