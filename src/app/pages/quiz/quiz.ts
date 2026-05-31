@@ -43,7 +43,12 @@ import { QuizService } from '../../services/quiz.service';
           }
         </div>
         <div class="actions-right">
-          <button type="button" class="hint-btn" (click)="toggleAnswer()">
+          <button
+            type="button"
+            class="hint-btn"
+            [attr.aria-pressed]="showAnswer()"
+            (click)="toggleAnswer()"
+          >
             {{ showAnswer() ? '隱藏答案' : '顯示答案' }}
           </button>
           <button
