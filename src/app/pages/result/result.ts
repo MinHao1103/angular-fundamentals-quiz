@@ -12,7 +12,7 @@ import { QuizService } from '../../services/quiz.service';
       <div class="score-card" aria-label="測驗分數">
         <span class="score-number">{{ score() }}</span>
         <span class="score-divider">/</span>
-        <span class="score-total">{{ total }}</span>
+        <span class="score-total">{{ total() }}</span>
         <p class="score-label">答對題數</p>
       </div>
 
@@ -176,17 +176,18 @@ export class ResultComponent {
   private readonly quizService = inject(QuizService);
   private readonly router = inject(Router);
 
-  readonly total = this.quizService.questions.length;
   readonly score = this.quizService.score;
 
   readonly summary = computed(() =>
-    this.quizService.questions.map((q, i) => ({
+    this.quizService.questions().map((q, i) => ({
       question: q.question,
       isCorrect: this.quizService.answers()[i] === q.correctIndex,
       userAnswer: q.options[this.quizService.answers()[i] ?? -1] ?? '未作答',
       correctAnswer: q.options[q.correctIndex],
     })),
   );
+
+  readonly total = computed(() => this.quizService.questions().length);
 
   retry(): void {
     this.quizService.reset();

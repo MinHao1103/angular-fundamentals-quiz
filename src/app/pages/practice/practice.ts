@@ -2,7 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { PRACTICE_QUESTIONS } from '../../data/practice-questions';
-import { Question } from '../../data/questions';
+import { Question, QuestionCategory } from '../../data/questions';
+
+type FilterCategory = '全部' | QuestionCategory;
+
+const CATEGORIES: FilterCategory[] = ['全部', '基礎語法', '生命週期', 'RxJS'];
 
 function shuffle(arr: readonly Question[]): Question[] {
   const result = [...arr];
@@ -13,6 +17,14 @@ function shuffle(arr: readonly Question[]): Question[] {
   return result;
 }
 
+function filteredAndShuffled(category: FilterCategory): Question[] {
+  const pool =
+    category === '全部'
+      ? PRACTICE_QUESTIONS
+      : PRACTICE_QUESTIONS.filter((q) => q.category === category);
+  return shuffle(pool);
+}
+
 @Component({
   selector: 'app-practice',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +33,20 @@ function shuffle(arr: readonly Question[]): Question[] {
       <div class="practice-header">
         <p class="counter">已練習 {{ doneCount() }} 題</p>
         <button type="button" class="exit-btn" (click)="exit()">離開練習</button>
+      </div>
+
+      <div class="categories" role="group" aria-label="篩選題目分類">
+        @for (cat of categories; track cat) {
+          <button
+            type="button"
+            class="cat-chip"
+            [class.active]="selectedCategory() === cat"
+            [attr.aria-pressed]="selectedCategory() === cat"
+            (click)="selectCategory(cat)"
+          >
+            {{ cat }}
+          </button>
+        }
       </div>
 
       <h1 id="question-label">{{ currentQuestion().question }}</h1>
@@ -54,7 +80,12 @@ function shuffle(arr: readonly Question[]): Question[] {
       </fieldset>
 
       @if (isAnswered()) {
-        <div class="result-banner" [class.correct]="isCorrect()" [class.wrong]="!isCorrect()" role="status">
+        <div
+          class="result-banner"
+          [class.correct]="isCorrect()"
+          [class.wrong]="!isCorrect()"
+          role="status"
+        >
           {{ isCorrect() ? '答對了！' : '答錯了，看看解析再繼續吧' }}
         </div>
 
@@ -98,6 +129,34 @@ function shuffle(arr: readonly Question[]): Question[] {
 
     .exit-btn:hover {
       background: #f5f5f5;
+    }
+
+    .categories {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cat-chip {
+      padding: 0.35rem 1rem;
+      background: transparent;
+      color: #555;
+      border: 1.5px solid #ddd;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .cat-chip:hover {
+      border-color: #6750a4;
+      color: #6750a4;
+    }
+
+    .cat-chip.active {
+      background: #6750a4;
+      border-color: #6750a4;
+      color: #fff;
     }
 
     h1 {
@@ -237,7 +296,10 @@ function shuffle(arr: readonly Question[]): Question[] {
 export class PracticeComponent {
   private readonly router = inject(Router);
 
-  private readonly _queue = signal<Question[]>(shuffle(PRACTICE_QUESTIONS));
+  readonly categories = CATEGORIES;
+  readonly selectedCategory = signal<FilterCategory>('全部');
+
+  private readonly _queue = signal<Question[]>(filteredAndShuffled('全部'));
   private readonly _currentIndex = signal(0);
   private readonly _doneCount = signal(0);
 
@@ -250,6 +312,14 @@ export class PracticeComponent {
   );
   readonly doneCount = this._doneCount.asReadonly();
 
+  selectCategory(cat: FilterCategory): void {
+    this.selectedCategory.set(cat);
+    this._queue.set(filteredAndShuffled(cat));
+    this._currentIndex.set(0);
+    this._doneCount.set(0);
+    this.selectedAnswer.set(null);
+  }
+
   select(index: number): void {
     if (this.isAnswered()) return;
     this.selectedAnswer.set(index);
@@ -259,7 +329,7 @@ export class PracticeComponent {
   next(): void {
     const nextIndex = this._currentIndex() + 1;
     if (nextIndex >= this._queue().length) {
-      this._queue.set(shuffle(PRACTICE_QUESTIONS));
+      this._queue.set(filteredAndShuffled(this.selectedCategory()));
       this._currentIndex.set(0);
     } else {
       this._currentIndex.update((i) => i + 1);

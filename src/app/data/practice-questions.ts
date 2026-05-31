@@ -10,6 +10,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '設定元素的 CSS 樣式',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '宣告變數是 JavaScript/TypeScript 的語法（let/const），不是模板語法。',
       '正確。插值語法讀取元件類別中的屬性值，轉為字串顯示在 HTML，值改變時自動更新。',
@@ -26,6 +27,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '宣告 imageUrl 是必填的輸入屬性',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '若不加方括號，寫成 src="imageUrl"，Angular 會把 "imageUrl" 當成純字串，而非變數名稱。',
       '正確。[] 是屬性綁定語法，等號右側當作 TypeScript 表達式求值，結果動態設定到 DOM 屬性上。',
@@ -42,6 +44,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '宣告 save 是一個輸出事件',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '顯示值應使用插值 {{ }}，但不建議在模板中直接呼叫函式。',
       '正確。() 是事件綁定語法，當指定的 DOM 事件觸發時，執行等號右側的表達式，資料流方向是 DOM → 元件。',
@@ -58,6 +61,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '驗證表單欄位是否符合格式',
     ],
     correctIndex: 2,
+    category: '基礎語法',
     optionExplanations: [
       '只讀取值不更新畫面，描述的是單向事件綁定 (ngModelChange)。',
       '只顯示到畫面不監聽輸入，描述的是單向屬性綁定 [ngModel]。',
@@ -74,6 +78,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '設定元件的路由路徑',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       'selector 雖然語法類似 CSS 選擇器，但用途是定義 HTML 標籤名稱，與套用樣式無關。',
       '正確。其他模板寫 <app-card> 時，Angular 就會渲染這個元件。',
@@ -90,6 +95,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'ngOnInit 只在元件有 @Input() 時才會被呼叫',
     ],
     correctIndex: 2,
+    category: '基礎語法',
     optionExplanations: [
       '兩者執行時機不同，不可互換。constructor 是 JavaScript 類別初始化，ngOnInit 是 Angular 生命週期鉤子。',
       '說反了。依賴注入在 constructor 中進行（或用 inject()），@Input() 的值在 ngOnInit 時才可靠地取得。',
@@ -106,6 +112,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '處理路由導航的權限控制',
     ],
     correctIndex: 2,
+    category: '基礎語法',
     optionExplanations: [
       '元件之間傳遞資料應使用 @Input()/@Output() 或 Service。',
       '攔截 HTTP 請求應使用 HttpInterceptor。',
@@ -122,6 +129,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '@if 只能用在 standalone 元件中',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '雙向綁定與控制流語法無關，兩者都不涉及雙向綁定。',
       '正確。@if 是編譯器原生支援的語法，不需 CommonModule，且支援 @else if 鏈，舊版 *ngIf 的 else 需搭配 ng-template。',
@@ -138,6 +146,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '宣告可發出事件給父元件的輸出屬性',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '建立本地響應式狀態應使用 signal()。',
       '正確。input() 是 Angular 17+ 的函式式 API，等同舊版 @Input() 裝飾器，回傳值是 Signal，可響應式讀取。',
@@ -154,6 +163,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'this.clicked.dispatch("value")',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '.next() 是 RxJS Subject 的方法，output() 回傳的是 OutputEmitterRef，不使用 .next()。',
       '正確。output() 回傳 OutputEmitterRef，呼叫 .emit() 發出事件，父元件可用 (clicked)="handler($event)" 監聽。',
@@ -170,6 +180,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '保護路由不被未授權使用者存取',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '路由設定在 app.routes.ts 中的 Routes 陣列定義，與 <router-outlet> 無關。',
       '正確。<router-outlet> 是佔位元素，Angular Router 根據當前 URL 將匹配到的元件渲染在此位置。',
@@ -186,6 +197,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'routerLink 只能用於有 @Input() 的元件',
     ],
     correctIndex: 2,
+    category: '基礎語法',
     optionExplanations: [
       '兩者預設都在同分頁開啟，routerLink 不改變這個行為。',
       '使用 href 會造成整頁重新載入，失去 SPA 的優勢，兩者行為不同。',
@@ -202,6 +214,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '設定 input 的 id 屬性為 nameInput',
     ],
     correctIndex: 1,
+    category: '基礎語法',
     optionExplanations: [
       '宣告 CSS class 應使用 class="nameInput"，# 是模板參照變數的語法。',
       '正確。# 建立模板參照變數，可在同一模板中存取此元素，例如 {{ nameInput.value }} 或傳給函式 (click)="submit(nameInput.value)"。',
@@ -220,6 +233,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'ngAfterViewInit → ngOnInit → ngOnChanges → ngOnDestroy',
     ],
     correctIndex: 1,
+    category: '生命週期',
     optionExplanations: [
       'ngOnChanges 必須在 ngOnInit 之前，因為它負責接收初始的 @Input() 值，ngOnInit 執行時才能安全使用這些值。',
       '正確。ngOnChanges 在每次 @Input() 變更時觸發（包含第一次），ngOnInit 只執行一次，ngAfterViewInit 在視圖建立後執行，ngOnDestroy 在銷毀前執行。',
@@ -236,6 +250,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '元件銷毀前',
     ],
     correctIndex: 1,
+    category: '生命週期',
     optionExplanations: [
       'ngOnChanges 不只執行一次，每次 @Input() 參照改變都會觸發，包含第一次初始化。',
       '正確。首次設定 @Input() 以及後續每次值改變都會觸發。若元件沒有任何 @Input()，則永遠不會被呼叫。',
@@ -252,6 +267,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'Record<string, any>',
     ],
     correctIndex: 2,
+    category: '生命週期',
     optionExplanations: [
       'InputChanges 並不存在於 Angular API 中。',
       'ChangeDetectorRef 是用來手動控制變更偵測的服務，與 ngOnChanges 的參數無關。',
@@ -268,6 +284,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '元件第一次初始化，@Input() 收到初始值',
     ],
     correctIndex: 2,
+    category: '生命週期',
     optionExplanations: [
       '字串是原始值，"hello" 和 "world" 是不同的值，Angular 可以偵測到變更，會觸發 ngOnChanges。',
       '從 null 變為新物件，參照確實改變，Angular 可以偵測到，會觸發 ngOnChanges。',
@@ -284,6 +301,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '訂閱路由參數的變更',
     ],
     correctIndex: 2,
+    category: '生命週期',
     optionExplanations: [
       'API 呼叫放在 ngOnInit 即可，此時依賴注入和 @Input() 都已就緒，不需要等到視圖建立。',
       '表單初始化放在 ngOnInit 即可，不依賴 DOM 元素的存在。',
@@ -300,6 +318,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '清除訂閱、計時器等資源，防止記憶體洩漏',
     ],
     correctIndex: 3,
+    category: '生命週期',
     optionExplanations: [
       '初始化元件資料應在 ngOnInit 中進行。',
       '視圖更新後執行邏輯應在 ngAfterViewChecked 中進行。',
@@ -316,6 +335,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '需要手動呼叫 ChangeDetectorRef.detectChanges() 才會觸發',
     ],
     correctIndex: 2,
+    category: '生命週期',
     optionExplanations: [
       'OnPush 不影響 ngOnChanges 的呼叫，只要 @Input() 參照改變，ngOnChanges 仍會執行。',
       'ngOnChanges 不限於只在第一次渲染時執行，每次 @Input() 參照改變都會觸發。',
@@ -334,6 +354,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'Promise 的效能比 Observable 好',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       '兩者都可以是非同步的。Observable 也可以是同步的（如 of(1,2,3)），但這不是主要差別。',
       '正確。Promise 一建立就立即執行且只 resolve 一次。Observable 是惰性的（lazy），只有訂閱後才執行，且可以持續發出多個值，例如 WebSocket 訊息或定時器。',
@@ -350,6 +371,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '將所有 Observable 的值合併成陣列後一次發出',
     ],
     correctIndex: 2,
+    category: 'RxJS',
     optionExplanations: [
       '等待前一個完成才訂閱下一個，這是 concatMap 的行為。',
       '同時保留所有並依完成順序發出，這是 mergeMap 的行為。',
@@ -366,6 +388,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'mergeMap 只能用於 HTTP 請求',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       '說反了。是 switchMap 取消前一個，mergeMap 不取消。',
       '正確。mergeMap 適合多個請求可以並行且順序不重要的場景（如同時上傳多個檔案）；switchMap 適合只關心最新請求結果的場景（如搜尋）。',
@@ -382,6 +405,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '防止按鈕在請求進行中被重複點擊',
     ],
     correctIndex: 2,
+    category: 'RxJS',
     optionExplanations: [
       '搜尋框只需最新結果，應使用 switchMap 取消前一個請求。',
       '並行上傳且不在乎順序，應使用 mergeMap 同時處理多個請求。',
@@ -398,6 +422,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '兩者完全相同，BehaviorSubject 只是 Subject 的別名',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       'BehaviorSubject 和 Subject 一樣可以呼叫 .next() 發出新值。',
       '正確。BehaviorSubject 有「記憶」功能，新訂閱者加入時會立即收到最後一次發出的值，適合儲存應用程式狀態（如登入狀態、使用者資料）。',
@@ -414,6 +439,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'BehaviorSubject 可以重播歷史值，ReplaySubject 不行',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       '說反了。需要初始值的是 BehaviorSubject，ReplaySubject 不需要初始值。',
       '正確。ReplaySubject(3) 會快取最近 3 個值，新訂閱者加入時立即收到這 3 個歷史值；BehaviorSubject 只保留最新一個，且建立時必須提供初始值。',
@@ -430,6 +456,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '快取 HTTP 請求結果，避免重複打 API',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       'async pipe 是將 Observable 的值顯示在模板中，而不是反過來將同步值轉為 Observable。',
       '正確。手動訂閱需要在 ngOnDestroy 中取消，async pipe 自動管理訂閱生命週期，大幅減少記憶體洩漏的風險，是官方推薦做法。',
@@ -446,6 +473,7 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '在 Observable 發生錯誤時自動重新訂閱',
     ],
     correctIndex: 1,
+    category: 'RxJS',
     optionExplanations: [
       '只取前 N 個值應使用 take(N) operator。',
       '正確。Angular 16+ 提供的 operator，搭配 DestroyRef 在元件銷毀時自動完成 Observable，是比 ngOnDestroy + Subject 組合更簡潔的現代寫法。',
