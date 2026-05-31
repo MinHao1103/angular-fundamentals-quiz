@@ -3,19 +3,11 @@ import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { PRACTICE_QUESTIONS } from '../../data/practice-questions';
 import { Question, QuestionCategory } from '../../data/questions';
+import { shuffle } from '../../utils/shuffle';
 
 type FilterCategory = '全部' | QuestionCategory;
 
 const CATEGORIES: FilterCategory[] = ['全部', '基礎語法', '生命週期', 'RxJS'];
-
-function shuffle(arr: readonly Question[]): Question[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
 
 function filteredAndShuffled(category: FilterCategory): Question[] {
   const pool =
@@ -280,17 +272,6 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
       background: #5a3d94;
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
   `,
 })
 export class PracticeComponent {

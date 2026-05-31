@@ -1,14 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { Question, QUESTIONS } from '../data/questions';
-
-function shuffle(arr: readonly Question[]): Question[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
+import { shuffle } from '../utils/shuffle';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {

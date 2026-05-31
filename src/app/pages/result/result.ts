@@ -28,6 +28,7 @@ import { QuizService } from '../../services/quiz.service';
                 <p class="summary-detail wrong-answer">你的答案：{{ item.userAnswer }}</p>
                 <p class="summary-detail correct-answer">正確答案：{{ item.correctAnswer }}</p>
               }
+              <p class="summary-explanation">{{ item.explanation }}</p>
             </div>
           </li>
         }
@@ -155,6 +156,27 @@ import { QuizService } from '../../services/quiz.service';
       color: #2e7d32;
     }
 
+    .summary-explanation {
+      margin: 0.25rem 0 0;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #444;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 4px;
+      border-left: 3px solid #ccc;
+    }
+
+    .summary-item.correct .summary-explanation {
+      border-left-color: #2e7d32;
+      background: rgba(46, 125, 50, 0.05);
+    }
+
+    .summary-item.wrong .summary-explanation {
+      border-left-color: #c62828;
+      background: rgba(198, 40, 40, 0.05);
+    }
+
     .retry-btn {
       align-self: center;
       padding: 0.75rem 2.5rem;
@@ -184,6 +206,7 @@ export class ResultComponent {
       isCorrect: this.quizService.answers()[i] === q.correctIndex,
       userAnswer: q.options[this.quizService.answers()[i] ?? -1] ?? '未作答',
       correctAnswer: q.options[q.correctIndex],
+      explanation: q.optionExplanations[q.correctIndex],
     })),
   );
 
