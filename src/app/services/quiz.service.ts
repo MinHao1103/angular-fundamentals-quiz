@@ -17,6 +17,8 @@ export class QuizService {
 
   readonly currentAnswer = computed(() => this._answers()[this._currentIndex()]);
 
+  readonly isFirstQuestion = computed(() => this._currentIndex() === 0);
+
   readonly isLastQuestion = computed(() => this._currentIndex() === QUESTIONS.length - 1);
 
   readonly score = computed(
@@ -39,6 +41,12 @@ export class QuizService {
   goNext(): void {
     if (!this.isLastQuestion()) {
       this._currentIndex.update((i) => i + 1);
+    }
+  }
+
+  goPrev(): void {
+    if (!this.isFirstQuestion()) {
+      this._currentIndex.update((i) => i - 1);
     }
   }
 
