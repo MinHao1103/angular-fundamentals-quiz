@@ -1,4 +1,4 @@
-export type QuestionCategory = '基礎語法' | '生命週期' | 'RxJS';
+export type QuestionCategory = '元件基礎' | '基礎語法' | '生命週期' | 'RxJS';
 
 export interface Question {
   question: string;

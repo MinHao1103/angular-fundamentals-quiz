@@ -7,7 +7,7 @@ import { shuffle } from '../../utils/shuffle';
 
 type FilterCategory = '全部' | QuestionCategory;
 
-const CATEGORIES: FilterCategory[] = ['全部', '基礎語法', '生命週期', 'RxJS'];
+const CATEGORIES: FilterCategory[] = ['全部', '元件基礎', '基礎語法', '生命週期', 'RxJS'];
 
 function filteredAndShuffled(category: FilterCategory): Question[] {
   const pool =
