@@ -171,4 +171,28 @@ export class CardComponent {}
 // 舊版寫法（仍可用）
 // <li *ngFor="let user of users">{{ user.name }}</li>`,
   },
+  {
+    question: '在 Angular 模板中，要動態綁定 DOM 屬性（例如根據條件停用按鈕），應使用哪種語法？',
+    options: [
+      '<button disabled="isDisabled">送出</button>',
+      '<button (disabled)="isDisabled">送出</button>',
+      '<button [disabled]="isDisabled">送出</button>',
+      '<button {{disabled}}="isDisabled">送出</button>',
+    ],
+    correctIndex: 2,
+    category: '基礎語法',
+    optionExplanations: [
+      '這是靜態 HTML 屬性寫法，會把字串 "isDisabled" 當作值傳入，無法動態綁定元件的變數。',
+      '() 是事件綁定語法，用來監聽 DOM 事件（如 click、input），不是用來設定屬性值。',
+      '正確。[] 是 Angular 的屬性綁定語法，會將右側運算式的結果綁定到 DOM property，isDisabled 為 true 時按鈕停用，false 時恢復。',
+      '{{ }} 是插值語法，只能用在模板的文字節點中顯示值，不能放在 HTML 屬性位置。',
+    ],
+    correctAnswerCode: `// 屬性綁定：[] 包住 DOM property 名稱
+<button [disabled]="isSubmitting">送出</button>
+<img [src]="avatarUrl" alt="頭像" />
+<div [class.active]="isActive">內容</div>
+
+// 對比：靜態寫法（不會隨變數變化）
+// <button disabled>送出</button>`,
+  },
 ];
