@@ -24,7 +24,12 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
     <main class="practice">
       <div class="practice-header">
         <p class="counter">已練習 {{ doneCount() }} 題</p>
-        <button type="button" class="exit-btn" (click)="exit()">離開練習</button>
+        <div class="header-actions">
+          @if (isAnswered()) {
+            <button type="button" class="next-btn" (click)="next()">下一題</button>
+          }
+          <button type="button" class="exit-btn" (click)="exit()">離開練習</button>
+        </div>
       </div>
 
       <div class="categories" role="group" aria-label="篩選題目分類">
@@ -85,7 +90,6 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
           {{ isCorrect() ? '答對了！' : '答錯了，看看解析再繼續吧' }}
         </div>
 
-        <button type="button" class="next-btn" (click)="next()">下一題</button>
       }
     </main>
   `,
@@ -110,6 +114,12 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
       margin: 0;
       font-size: 0.875rem;
       color: #666;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .exit-btn {
@@ -296,13 +306,12 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
     }
 
     .next-btn {
-      align-self: flex-end;
-      padding: 0.75rem 2rem;
+      padding: 0.35rem 0.875rem;
       background: #6750a4;
       color: #fff;
       border: none;
       border-radius: 100px;
-      font-size: 1rem;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: background 0.15s;
     }
