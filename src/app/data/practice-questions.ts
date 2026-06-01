@@ -1,3 +1,4 @@
+ git push
 import { Question } from './questions';
 
 export const PRACTICE_QUESTIONS: readonly Question[] = [
@@ -115,5 +116,31 @@ export class CardComponent {}
 
 // 在其他元件的模板中插入：
 // <app-card></app-card>`,
+  },
+  {
+    question: '在 Angular 模板中，要根據條件顯示或隱藏元素，Angular v17+ 推薦使用哪種寫法？',
+    options: [
+      '<div *ngIf="isVisible">內容</div>',
+      '<div [hidden]="!isVisible">內容</div>',
+      '@if (isVisible) { <div>內容</div> }',
+      '<div v-if="isVisible">內容</div>',
+    ],
+    correctIndex: 2,
+    category: '基礎語法',
+    optionExplanations: [
+      '*ngIf 是舊版結構指令語法，Angular v17+ 推薦改用內建控制流程 @if，舊語法仍可用但非首選。',
+      '[hidden] 只是在 DOM 上套用 display: none，元素仍存在於頁面中；條件渲染應讓元素完全不出現在 DOM 裡。',
+      '正確。Angular v17+ 引入內建控制流程，@if 語法不需 import CommonModule，可讀性更接近 TypeScript，是目前官方推薦寫法。',
+      'v-if 是 Vue.js 的語法，Angular 沒有這個指令。',
+    ],
+    correctAnswerCode: `// Angular v17+ 推薦寫法
+@if (isLoggedIn) {
+  <p>歡迎回來！</p>
+} @else {
+  <p>請先登入</p>
+}
+
+// 舊版寫法（仍可用）
+// <p *ngIf="isLoggedIn">歡迎回來！</p>`,
   },
 ];
