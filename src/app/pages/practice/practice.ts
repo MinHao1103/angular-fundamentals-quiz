@@ -21,8 +21,8 @@ function filteredAndShuffled(category: FilterCategory, correctCounts: Map<Questi
     category === '全部'
       ? PRACTICE_QUESTIONS
       : PRACTICE_QUESTIONS.filter((q) => q.category === category);
-  // 答對 n 次的題目 weight = 1/(n+1)，答對越多出現機率越低；+1 避免除以零
-  const weights = pool.map((q) => 1 / ((correctCounts.get(q) ?? 0) + 1));
+  // 答對 n 次的題目 weight = 1/2^n，指數衰減：0次=1、1次=0.5、2次=0.25
+  const weights = pool.map((q) => 1 / 2 ** (correctCounts.get(q) ?? 0));
   return weightedShuffle(pool, weights);
 }
 
@@ -97,6 +97,9 @@ function filteredAndShuffled(category: FilterCategory, correctCounts: Map<Questi
           role="status"
         >
           {{ isCorrect() ? '答對了！' : '答錯了，看看解析再繼續吧' }}
+          @if (isCorrect()) {
+            <p class="correct-count">此題累計答對 {{ currentCorrectCount() }} 次，下輪出現機率將降低</p>
+          }
         </div>
 
       }
@@ -314,6 +317,13 @@ function filteredAndShuffled(category: FilterCategory, correctCounts: Map<Questi
       color: #c62828;
     }
 
+    .correct-count {
+      margin: 0.35rem 0 0;
+      font-size: 0.775rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
     .next-btn {
       padding: 0.35rem 0.875rem;
       background: #6750a4;
@@ -351,6 +361,9 @@ export class PracticeComponent {
     () => this.selectedAnswer() === this.currentQuestion().correctIndex,
   );
   readonly doneCount = this._doneCount.asReadonly();
+  readonly currentCorrectCount = computed(
+    () => this._correctCounts().get(this.currentQuestion()) ?? 0,
+  );
 
   selectCategory(cat: FilterCategory): void {
     this.selectedCategory.set(cat);
