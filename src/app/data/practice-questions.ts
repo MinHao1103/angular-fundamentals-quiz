@@ -143,4 +143,33 @@ export class CardComponent {}
 // 舊版寫法（仍可用）
 // <p *ngIf="isLoggedIn">歡迎回來！</p>`,
   },
+  {
+    question: '在 Angular 模板中，要將陣列資料重複渲染成清單，Angular v17+ 推薦使用哪種寫法？',
+    options: [
+      '<li *ngFor="let item of items">{{ item }}</li>',
+      '@for (item of items) { <li>{{ item }}</li> }',
+      '@for (item of items; track item) { <li>{{ item }}</li> }',
+      '<li v-for="item in items">{{ item }}</li>',
+    ],
+    correctIndex: 2,
+    category: '基礎語法',
+    optionExplanations: [
+      '*ngFor 是舊版結構指令語法，Angular v17+ 推薦改用內建控制流程 @for，舊語法仍可用但非首選。',
+      '語法接近正確，但缺少必填的 track，Angular v17+ 的 @for 強制要求 track 來追蹤每個項目、優化重新渲染。',
+      '正確。@for 是 Angular v17+ 推薦的迴圈語法，track 為必填，告訴 Angular 如何識別每個項目以避免不必要的 DOM 重建。',
+      'v-for 是 Vue.js 的語法，Angular 沒有這個指令。',
+    ],
+    correctAnswerCode: `// Angular v17+ 推薦寫法（track 為必填）
+@for (user of users; track user.id) {
+  <li>{{ user.name }}</li>
+}
+
+// 若項目沒有唯一 id，可用內建變數 $index
+@for (item of items; track $index) {
+  <li>{{ item }}</li>
+}
+
+// 舊版寫法（仍可用）
+// <li *ngFor="let user of users">{{ user.name }}</li>`,
+  },
 ];
