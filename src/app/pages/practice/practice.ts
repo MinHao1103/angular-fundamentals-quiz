@@ -3,18 +3,27 @@ import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { PRACTICE_QUESTIONS } from '../../data/practice-questions';
 import { Question, QuestionCategory } from '../../data/questions';
-import { shuffle } from '../../utils/shuffle';
 
 type FilterCategory = '全部' | QuestionCategory;
 
 const CATEGORIES: FilterCategory[] = ['全部', '元件基礎', '基礎語法', '生命週期', 'RxJS'];
 
-function filteredAndShuffled(category: FilterCategory): Question[] {
+// Efraimidis-Spirakis 加權抽樣：key = random^(1/weight)，weight 越高平均 key 越大，排序後自然出現在前面
+function weightedShuffle<T>(items: readonly T[], weights: number[]): T[] {
+  return [...items]
+    .map((item, i) => ({ item, key: Math.random() ** (1 / weights[i]) }))
+    .sort((a, b) => b.key - a.key)
+    .map(({ item }) => item);
+}
+
+function filteredAndShuffled(category: FilterCategory, correctCounts: Map<Question, number>): Question[] {
   const pool =
     category === '全部'
       ? PRACTICE_QUESTIONS
       : PRACTICE_QUESTIONS.filter((q) => q.category === category);
-  return shuffle(pool);
+  // 答對 n 次的題目 weight = 1/(n+1)，答對越多出現機率越低；+1 避免除以零
+  const weights = pool.map((q) => 1 / ((correctCounts.get(q) ?? 0) + 1));
+  return weightedShuffle(pool, weights);
 }
 
 @Component({
@@ -329,7 +338,8 @@ export class PracticeComponent {
   readonly optionLabels = ['A', 'B', 'C', 'D'];
   readonly selectedCategory = signal<FilterCategory>('全部');
 
-  private readonly _queue = signal<Question[]>(filteredAndShuffled('全部'));
+  private readonly _correctCounts = signal<Map<Question, number>>(new Map());
+  private readonly _queue = signal<Question[]>(filteredAndShuffled('全部', new Map()));
   private readonly _currentIndex = signal(0);
   private readonly _doneCount = signal(0);
 
@@ -344,7 +354,7 @@ export class PracticeComponent {
 
   selectCategory(cat: FilterCategory): void {
     this.selectedCategory.set(cat);
-    this._queue.set(filteredAndShuffled(cat));
+    this._queue.set(filteredAndShuffled(cat, this._correctCounts()));
     this._currentIndex.set(0);
     this._doneCount.set(0);
     this.selectedAnswer.set(null);
@@ -354,12 +364,21 @@ export class PracticeComponent {
     if (this.isAnswered()) return;
     this.selectedAnswer.set(index);
     this._doneCount.update((n) => n + 1);
+    if (index === this.currentQuestion().correctIndex) {
+      const q = this.currentQuestion();
+      // signal 內的 Map 需整個替換才能觸發變更偵測
+      this._correctCounts.update((counts) => {
+        const next = new Map(counts);
+        next.set(q, (next.get(q) ?? 0) + 1);
+        return next;
+      });
+    }
   }
 
   next(): void {
     const nextIndex = this._currentIndex() + 1;
     if (nextIndex >= this._queue().length) {
-      this._queue.set(filteredAndShuffled(this.selectedCategory()));
+      this._queue.set(filteredAndShuffled(this.selectedCategory(), this._correctCounts()));
       this._currentIndex.set(0);
     } else {
       this._currentIndex.update((i) => i + 1);
