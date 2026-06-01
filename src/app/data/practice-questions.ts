@@ -91,4 +91,29 @@ ng g c card
 # src/app/card/card.css
 # src/app/card/card.spec.ts`,
   },
+  {
+    question: '在 @Component 裝飾器中，selector 屬性的用途是什麼？',
+    options: [
+      '定義元件的 CSS 樣式類別名稱',
+      '指定元件在 HTML 模板中使用的標籤名稱',
+      '選取要注入到元件的服務',
+      '決定元件的變更偵測策略',
+    ],
+    correctIndex: 1,
+    category: '元件基礎',
+    optionExplanations: [
+      'CSS 樣式是由 styles 或 styleUrl 屬性定義，selector 與樣式無關。',
+      '正確。selector 告訴 Angular 這個元件對應哪個 HTML 標籤，例如 selector: \'app-card\'，就能在其他元件的模板中用 <app-card> 來插入它。',
+      '服務注入是透過 inject() 函式完成，與 selector 無關。',
+      '變更偵測策略是由 changeDetection 屬性控制，例如 ChangeDetectionStrategy.OnPush。',
+    ],
+    correctAnswerCode: `@Component({
+  selector: 'app-card',
+  template: \`...\`,
+})
+export class CardComponent {}
+
+// 在其他元件的模板中插入：
+// <app-card></app-card>`,
+  },
 ];
