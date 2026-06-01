@@ -65,4 +65,30 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
 # 啟動後開啟瀏覽器前往：
 # http://localhost:4200`,
   },
+  {
+    question: 'Angular CLI 中，哪個指令用來建立一個新的元件？',
+    options: [
+      'ng build component',
+      'ng create component',
+      'ng generate component',
+      'ng new component',
+    ],
+    correctIndex: 2,
+    category: '元件基礎',
+    optionExplanations: [
+      'ng build 是用來編譯打包整個應用程式，不是建立元件。',
+      'ng create 不存在於 Angular CLI 指令中。',
+      '正確。ng generate component 會自動建立元件所需的 .ts、.html、.css、.spec.ts 四個檔案，可縮寫為 ng g c。',
+      'ng new 是用來建立全新的 Angular 專案，不是建立元件。',
+    ],
+    correctAnswerCode: `ng generate component card
+# 縮寫：
+ng g c card
+
+# 會產生：
+# src/app/card/card.ts
+# src/app/card/card.html
+# src/app/card/card.css
+# src/app/card/card.spec.ts`,
+  },
 ];
