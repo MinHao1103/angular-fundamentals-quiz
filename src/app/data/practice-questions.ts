@@ -45,4 +45,24 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
 // Angular v20+ 不需要，預設就是 standalone
 @Component({ ... })`,
   },
+  {
+    question: 'Angular 開發時，執行 ng serve 後，預設可以在哪個網址看到畫面？',
+    options: [
+      'http://localhost:3000',
+      'http://localhost:8080',
+      'http://localhost:4200',
+      'http://localhost:5000',
+    ],
+    correctIndex: 2,
+    category: '元件基礎',
+    optionExplanations: [
+      '3000 是 Node.js / Express 常用的 port，不是 Angular 的預設值。',
+      '8080 是 Java / Tomcat 常用的 port，不是 Angular 的預設值。',
+      '正確。Angular CLI 預設使用 port 4200，這是 Angular 專屬的慣例，可透過 ng serve --port 變更。',
+      '5000 是 .NET / Python Flask 常用的 port，不是 Angular 的預設值。',
+    ],
+    correctAnswerCode: `ng serve
+# 啟動後開啟瀏覽器前往：
+# http://localhost:4200`,
+  },
 ];
