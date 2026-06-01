@@ -23,4 +23,26 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
 ├── card.css         // 樣式（或 inline styles）
 └── card.spec.ts     // 單元測試`,
   },
+  {
+    question: '以下是一個 Angular 元件的宣告，何者敘述正確？',
+    options: [
+      '這個元件缺少 standalone: true，無法正常運作',
+      'imports 陣列應該放在 class 內部，不是裝飾器裡',
+      'Angular v20+ 預設 standalone，不需要明確寫 standalone: true',
+      'template 必須改用 templateUrl 才能載入 HTML',
+    ],
+    correctIndex: 2,
+    category: '元件基礎',
+    optionExplanations: [
+      '錯誤。Angular v20+ 預設所有元件都是 standalone，不需要明確宣告 standalone: true。',
+      '錯誤。imports 是 @Component 裝飾器的設定，告訴 Angular 這個元件的模板用到哪些指令或元件。',
+      '正確。舊版 Angular 需要寫 standalone: true，Angular v20+ 已將其設為預設值，不需要再明確宣告。',
+      '錯誤。template inline 完全合法，適合模板內容簡短的情況；templateUrl 是選擇性的外部檔案寫法。',
+    ],
+    correctAnswerCode: `// Angular v20+ 以前需要明確宣告
+@Component({ standalone: true, ... })
+
+// Angular v20+ 不需要，預設就是 standalone
+@Component({ ... })`,
+  },
 ];

@@ -56,6 +56,7 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
             (click)="select($index)"
           >
             <div class="option-header">
+              <span class="option-label">{{ optionLabels[$index] }}</span>
               <span class="option-text">{{ option }}</span>
               @if (isAnswered() && $index === currentQuestion().correctIndex) {
                 <span aria-label="正確答案">✓</span>
@@ -207,7 +208,42 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: 0.75rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: #f0edf8;
+      color: #6750a4;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .option.is-correct .option-label {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    .option.is-wrong .option-label {
+      background: #c62828;
+      color: #fff;
+    }
+
+    .option:disabled:not(.is-correct):not(.is-wrong) .option-label {
+      background: #eee;
+      color: #999;
+    }
+
+    .option-text {
+      flex: 1;
+      text-align: left;
+      user-select: text;
     }
 
     .option.is-correct .option-header span:last-child {
@@ -281,6 +317,7 @@ export class PracticeComponent {
   private readonly router = inject(Router);
 
   readonly categories = CATEGORIES;
+  readonly optionLabels = ['A', 'B', 'C', 'D'];
   readonly selectedCategory = signal<FilterCategory>('全部');
 
   private readonly _queue = signal<Question[]>(filteredAndShuffled('全部'));

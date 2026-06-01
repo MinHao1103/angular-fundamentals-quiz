@@ -22,6 +22,7 @@ import { QuizService } from '../../services/quiz.service';
             [class.correct]="showAnswer() && currentQuestion().correctIndex === $index"
           >
             <div class="option-header">
+              <span class="option-label">{{ optionLabels[$index] }}</span>
               <input
                 type="radio"
                 [name]="'question-' + currentIndex()"
@@ -118,8 +119,34 @@ import { QuizService } from '../../services/quiz.service';
       gap: 0.75rem;
     }
 
+    .option-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: #f0edf8;
+      color: #6750a4;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .option.selected .option-label {
+      background: #6750a4;
+      color: #fff;
+    }
+
+    .option.correct .option-label {
+      background: #2e7d32;
+      color: #fff;
+    }
+
     .option-text {
       flex: 1;
+      text-align: left;
+      user-select: text;
     }
 
     .option-explanation {
@@ -247,6 +274,7 @@ export class QuizComponent {
   readonly progress = this.quizService.progress;
   readonly currentIndex = this.quizService.currentIndex;
 
+  readonly optionLabels = ['A', 'B', 'C', 'D'];
   readonly showAnswer = signal(false);
 
   selectAnswer(index: number): void {
