@@ -8,5 +8,3 @@ export interface Question {
   category?: QuestionCategory;
   correctAnswerCode?: string;
 }
-
-export const QUESTIONS: readonly Question[] = [];

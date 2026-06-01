@@ -6,19 +6,10 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <main class="home">
-      <h1>Angular 基礎知識測驗</h1>
-      <p class="subtitle">測試你對 Angular 核心概念的掌握程度</p>
+      <h1>Angular 基礎知識練習</h1>
+      <p class="subtitle">隨機題目，馬上看答案</p>
 
-      <div class="actions">
-        <button type="button" class="primary-btn" (click)="startQuiz()">
-          開始測驗
-          <span class="btn-hint">10 題，有計分</span>
-        </button>
-        <button type="button" class="secondary-btn" (click)="startPractice()">
-          練習模式
-          <span class="btn-hint">隨機題目，馬上看答案</span>
-        </button>
-      </div>
+      <button type="button" class="primary-btn" (click)="startPractice()">開始練習</button>
     </main>
   `,
   styles: `
@@ -43,69 +34,27 @@ import { Router } from '@angular/router';
       color: #666;
     }
 
-    .actions {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-      max-width: 320px;
-      margin-top: 1rem;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-      width: 100%;
-      padding: 1rem 1.5rem;
+    .primary-btn {
+      padding: 1rem 2.5rem;
       border-radius: 12px;
       font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
-      border: 2px solid transparent;
-    }
-
-    .primary-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .primary-btn {
+      border: 2px solid #6750a4;
       background: #6750a4;
       color: #fff;
-      border-color: #6750a4;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 1rem;
     }
 
     .primary-btn:hover {
       background: #5a3d94;
-    }
-
-    .secondary-btn {
-      background: #fff;
-      color: #6750a4;
-      border-color: #6750a4;
-    }
-
-    .secondary-btn:hover {
-      background: #f3eeff;
-    }
-
-    .btn-hint {
-      font-size: 0.775rem;
-      font-weight: 400;
-      opacity: 0.8;
+      transform: translateY(-1px);
     }
   `,
 })
 export class HomeComponent {
   private readonly router = inject(Router);
-
-  startQuiz(): void {
-    this.router.navigate(['/quiz']);
-  }
 
   startPractice(): void {
     this.router.navigate(['/practice']);
