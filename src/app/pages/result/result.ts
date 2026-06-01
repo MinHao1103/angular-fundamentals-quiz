@@ -29,6 +29,9 @@ import { QuizService } from '../../services/quiz.service';
                 <p class="summary-detail correct-answer">正確答案：{{ item.correctAnswer }}</p>
               }
               <p class="summary-explanation">{{ item.explanation }}</p>
+              @if (item.code) {
+                <pre class="code-block">{{ item.code }}</pre>
+              }
             </div>
           </li>
         }
@@ -207,6 +210,7 @@ export class ResultComponent {
       userAnswer: q.options[this.quizService.answers()[i] ?? -1] ?? '未作答',
       correctAnswer: q.options[q.correctIndex],
       explanation: q.optionExplanations[q.correctIndex],
+      code: q.correctAnswerCode,
     })),
   );
 

@@ -17,6 +17,8 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '監聽 DOM 事件應使用事件綁定語法 (event)="handler()"。',
       '設定樣式應使用 [style.property]="value" 或 class 綁定。',
     ],
+    correctAnswerCode: `<p>{{ username }}</p>
+<!-- 元件類別：username = 'Angular' -->`,
   },
   {
     question: '<img [src]="imageUrl"> 中，方括號 [] 的作用是？',
@@ -34,6 +36,8 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '監聽事件應使用圓括號 (event)="handler()"，方括號是單向資料流（元件 → DOM）。',
       '宣告輸入屬性應在元件類別中使用 input() 或 @Input()，與模板語法無關。',
     ],
+    correctAnswerCode: `<img [src]="imageUrl" />
+<!-- 不加 [] 時，imageUrl 會被當成純字串 -->`,
   },
   {
     question: '<button (click)="save()"> 中，圓括號 () 的作用是？',
@@ -51,6 +55,8 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '綁定屬性應使用方括號 [property]="value"，方向與 () 相反。',
       '宣告輸出事件應在元件類別中使用 output() 或 @Output() 裝飾器。',
     ],
+    correctAnswerCode: `<button (click)="save()">儲存</button>
+<input (input)="onInput($event)" />`,
   },
   {
     question: '[(ngModel)] 的作用是？',
@@ -68,6 +74,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。[()] 是「香蕉在盒子」語法，結合 [ngModel]（屬性綁定）和 (ngModelChange)（事件綁定），實現雙向同步。需匯入 FormsModule。',
       '驗證應使用 Validators 搭配 ReactiveFormsModule。',
     ],
+    correctAnswerCode: `<input [(ngModel)]="username" />
+<p>{{ username }}</p>
+<!-- 輸入時畫面自動同步 -->`,
   },
   {
     question: '@Component({ selector: \'app-card\' }) 中，selector 的用途是？',
@@ -85,6 +94,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '外部模板檔案使用 templateUrl 屬性指定，與 selector 無關。',
       '路由路徑在 app.routes.ts 中的 path 屬性定義，與 selector 無關。',
     ],
+    correctAnswerCode: `@Component({ selector: 'app-card' })
+export class CardComponent {}
+// 使用：<app-card></app-card>`,
   },
   {
     question: '以下關於 ngOnInit 和 constructor 的敘述，何者正確？',
@@ -102,6 +114,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。constructor 執行時 Angular 尚未設定 @Input() 的值，ngOnInit 執行時已完成輸入屬性的初始化，適合放初始資料載入邏輯。',
       'ngOnInit 是所有元件的生命週期鉤子，不論有無 @Input() 都會執行。',
     ],
+    correctAnswerCode: `ngOnInit() {
+  // ✓ @Input() 已就緒，適合載入初始資料
+  this.items = this.dataService.getItems();
+}`,
   },
   {
     question: 'Angular 中 Pipe（管道）的主要用途是？',
@@ -119,6 +135,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。Pipe 用於模板中轉換格式，例如 {{ price | currency }}、{{ date | date:"yyyy/MM/dd" }}，不改變原始資料。',
       '路由權限控制應使用路由 Guard（如 CanActivate）。',
     ],
+    correctAnswerCode: `{{ 1234567 | number }}        <!-- 1,234,567 -->
+{{ price | currency:'TWD' }}  <!-- NT$100 -->
+{{ name | uppercase }}        <!-- ANGULAR -->`,
   },
   {
     question: 'Angular 17+ 的 @if 相較於 *ngIf 的優點是？',
@@ -136,6 +155,13 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '@if 的效能與 *ngIf 相同或更好，是編譯器層級的最佳化。',
       '@if 可在所有元件中使用，不限於 standalone 元件。',
     ],
+    correctAnswerCode: `@if (isLoggedIn) {
+  <p>歡迎回來</p>
+} @else if (isGuest) {
+  <p>訪客模式</p>
+} @else {
+  <p>請登入</p>
+}`,
   },
   {
     question: 'readonly title = input<string>() 的用途是？',
@@ -153,6 +179,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '從其他 signal 衍生計算值應使用 computed()。',
       '宣告輸出事件應使用 output()，對應舊版的 @Output() + EventEmitter。',
     ],
+    correctAnswerCode: `export class CardComponent {
+  readonly title = input<string>();
+  readonly count = input(0); // 有預設值
+}
+// 使用：<app-card [title]="'Hello'" />`,
   },
   {
     question: 'readonly clicked = output<string>() 宣告後，如何在元件內部發出事件？',
@@ -170,6 +201,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '.set() 是 signal() 的方法，用於設定響應式狀態值，與事件發射無關。',
       '.dispatch() 不存在於 Angular OutputEmitterRef API 中。',
     ],
+    correctAnswerCode: `readonly clicked = output<string>();
+
+handleClick() {
+  this.clicked.emit('clicked!');
+}`,
   },
   {
     question: '<router-outlet> 在 Angular 中的用途是？',
@@ -187,6 +223,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '建立超連結應使用 <a routerLink="/path">，或程式導航用 router.navigate()。',
       '路由保護應使用路由 Guard，如 CanActivate。',
     ],
+    correctAnswerCode: `<nav>...</nav>
+<router-outlet />
+<!-- 路由匹配的元件渲染在這裡 -->`,
   },
   {
     question: '<a routerLink="/about"> 與 <a href="/about"> 的差別是？',
@@ -204,6 +243,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。routerLink 使用 History API 切換 URL，Angular 更新視圖，不觸發完整頁面重載，保留應用程式狀態。',
       'routerLink 是一個指令，可用在任何匯入了 RouterLink 的元件中。',
     ],
+    correctAnswerCode: `<!-- ✓ SPA 導航，不重新載入頁面 -->
+<a routerLink="/about">關於</a>
+
+<!-- ✗ 整頁重載，失去 SPA 優勢 -->
+<a href="/about">關於</a>`,
   },
   {
     question: '<input #nameInput> 中，#nameInput 的用途是？',
@@ -221,6 +265,8 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '屬性綁定應使用 [] 語法，# 是模板參照，不涉及屬性綁定。',
       '設定 id 應使用 id="nameInput"，# 模板參照變數只在模板作用域內有效，不影響 HTML 屬性。',
     ],
+    correctAnswerCode: `<input #nameInput type="text" />
+<button (click)="greet(nameInput.value)">打招呼</button>`,
   },
 
   // 生命週期
@@ -240,6 +286,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'ngOnChanges 不可能在 ngOnInit 之後，因為 ngOnInit 需要依賴 @Input() 的初始值。',
       'ngAfterViewInit 必須在視圖建立後才執行，不可能排在最前面。',
     ],
+    correctAnswerCode: `ngOnChanges()      // @Input() 變更時（含首次）
+ngOnInit()         // 初始化一次
+ngAfterViewInit()  // 視圖建立完成
+ngOnDestroy()      // 元件銷毀前`,
   },
   {
     question: 'ngOnChanges 什麼時候會被呼叫？',
@@ -257,6 +307,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '視圖渲染完成後執行的是 ngAfterViewInit，不是 ngOnChanges。',
       '元件銷毀前執行的是 ngOnDestroy。',
     ],
+    correctAnswerCode: `ngOnChanges(changes: SimpleChanges) {
+  console.log(changes['title'].currentValue);
+}`,
   },
   {
     question: 'ngOnChanges(changes: ???) 的參數型別是？',
@@ -274,6 +327,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。SimpleChanges 是一個物件，key 是 @Input() 屬性名稱，value 是 SimpleChange，包含 currentValue、previousValue、firstChange 三個欄位。',
       'Angular 有明確的型別定義，使用 SimpleChanges 而非泛型 Record。',
     ],
+    correctAnswerCode: `ngOnChanges(changes: SimpleChanges) {
+  const { currentValue, previousValue, firstChange }
+    = changes['title'];
+}`,
   },
   {
     question: '以下哪種情況 ngOnChanges 不會被呼叫？',
@@ -291,6 +348,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。Angular 以參照比較（===）判斷 @Input() 是否變更。修改物件內部屬性不改變參照，Angular 偵測不到，ngOnChanges 不會觸發。',
       '第一次初始化時 Angular 會呼叫 ngOnChanges，SimpleChange 的 firstChange 屬性為 true。',
     ],
+    correctAnswerCode: `// ✗ 不觸發（同一個物件參照）
+this.user.name = 'new name';
+
+// ✓ 觸發（新參照）
+this.user = { ...this.user, name: 'new name' };`,
   },
   {
     question: '以下哪個操作應放在 ngAfterViewInit 而非 ngOnInit？',
@@ -308,6 +370,12 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。@ViewChild 在 ngOnInit 執行時尚未渲染，值為 undefined。ngAfterViewInit 執行時視圖已建立完成，才能安全存取 DOM 元素或子元件。',
       '路由參數訂閱放在 ngOnInit 即可，與視圖是否建立無關。',
     ],
+    correctAnswerCode: `@ViewChild('myInput') input!: ElementRef;
+
+ngAfterViewInit() {
+  this.input.nativeElement.focus(); // ✓ 視圖已就緒
+  // ngOnInit() 中 this.input 為 undefined
+}`,
   },
   {
     question: 'ngOnDestroy 的主要用途是？',
@@ -325,6 +393,9 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '@Input() 的初始值在 ngOnChanges 和 ngOnInit 中處理，ngOnDestroy 是元件銷毀前的最後鉤子。',
       '正確。未清除的 Observable 訂閱和 setInterval 在元件銷毀後仍會繼續執行，造成記憶體洩漏。現代 Angular 可用 takeUntilDestroyed() 自動處理。',
     ],
+    correctAnswerCode: `this.service.data$.pipe(
+  takeUntilDestroyed() // 元件銷毀時自動取消
+).subscribe(data => this.data = data);`,
   },
   {
     question: '元件使用 ChangeDetectionStrategy.OnPush，ngOnChanges 何時仍會被呼叫？',
@@ -342,6 +413,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。OnPush 以參照比較判斷輸入是否改變，傳入新參照時仍會觸發 ngOnChanges，同時也會觸發變更偵測。這也是為什麼 OnPush 搭配不可變資料效果最好。',
       'detectChanges() 是手動觸發變更偵測，與 ngOnChanges 的呼叫時機無關。',
     ],
+    correctAnswerCode: `@Component({ changeDetection: ChangeDetectionStrategy.OnPush })
+export class CardComponent {
+  @Input() title = '';
+  // 傳入新參照時，ngOnChanges 仍正常執行
+}`,
   },
 
   // RxJS
@@ -361,6 +437,15 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       'Observable（RxJS）是獨立的函式庫，可以在任何 JavaScript 環境中使用，不限於 Angular。',
       '效能取決於使用場景，Observable 的惰性特性在很多情況下反而更有效率，無法一概而論。',
     ],
+    correctAnswerCode: `// Promise：立即執行，只發一次值
+const p = new Promise(resolve => resolve(1));
+
+// Observable：惰性，可發多次值
+const o$ = new Observable(sub => {
+  sub.next(1);
+  sub.next(2);
+});
+o$.subscribe(v => console.log(v)); // 訂閱後才執行`,
   },
   {
     question: 'switchMap 的行為是？',
@@ -378,6 +463,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。switchMap 最常用於搜尋框：每次輸入新字元就切換到新的 API 請求，自動取消前一個還沒回來的請求，避免舊回應覆蓋新結果（race condition）。',
       '合併成陣列一次發出，這是 forkJoin 的行為。',
     ],
+    correctAnswerCode: `searchInput.valueChanges.pipe(
+  switchMap(query => this.api.search(query))
+).subscribe(results => { ... });
+// 新輸入時自動取消前一個未完成的請求`,
   },
   {
     question: 'switchMap 與 mergeMap 的主要差別是？',
@@ -395,6 +484,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '兩者行為完全不同，選錯 operator 可能造成 race condition 或請求遺失等 bug。',
       'mergeMap 可用於任何 Observable，不限於 HTTP 請求。',
     ],
+    correctAnswerCode: `// switchMap：切換，取消前一個
+clicks$.pipe(switchMap(() => api.fetch()));
+
+// mergeMap：並行，保留所有
+uploads$.pipe(mergeMap(file => api.upload(file)));`,
   },
   {
     question: '以下哪個場景最適合使用 concatMap？',
@@ -412,6 +506,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '正確。concatMap 依序排隊，等前一個 Observable 完成才訂閱下一個，保證執行順序，適合有前後依賴的操作。',
       '防止重複點擊應使用 exhaustMap，它在前一個請求進行中時會忽略新的觸發。',
     ],
+    correctAnswerCode: `orders$.pipe(
+  concatMap(order => api.submit(order))
+).subscribe();
+// 等前一筆完成，才送出下一筆`,
   },
   {
     question: 'BehaviorSubject 與 Subject 的主要差別是？',
@@ -429,6 +527,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '說反了。需要初始值的是 BehaviorSubject，Subject 不需要初始值。',
       '兩者行為不同，BehaviorSubject 繼承自 Subject 但增加了狀態保存功能。',
     ],
+    correctAnswerCode: `const s = new Subject<number>();
+// 新訂閱者收不到之前的值
+
+const b = new BehaviorSubject<number>(0);
+b.subscribe(v => console.log(v)); // 立即收到 0`,
   },
   {
     question: 'ReplaySubject 與 BehaviorSubject 的差別是？',
@@ -446,6 +549,10 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '兩者行為不同，適用場景也不同。',
       '說反了。能重播歷史值的是 ReplaySubject。',
     ],
+    correctAnswerCode: `const r = new ReplaySubject<number>(3); // 快取最近 3 個
+r.next(1); r.next(2); r.next(3); r.next(4);
+
+r.subscribe(v => console.log(v)); // 收到 2, 3, 4`,
   },
   {
     question: 'Angular 模板中使用 async pipe 的主要優點是？',
@@ -463,6 +570,11 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '合併多個 Observable 應使用 combineLatest、forkJoin 等 operator。',
       'async pipe 不具備快取功能，每次訂閱都會重新執行。若需快取可搭配 shareReplay operator。',
     ],
+    correctAnswerCode: `// 元件
+readonly items$ = this.service.getItems();
+
+// 模板：自動訂閱，元件銷毀時自動取消
+<li *ngFor="let item of items$ | async">{{ item }}</li>`,
   },
   {
     question: 'takeUntilDestroyed() 的用途是？',
@@ -480,5 +592,8 @@ export const PRACTICE_QUESTIONS: readonly Question[] = [
       '將 Observable 轉為 Promise 應使用 firstValueFrom() 或 lastValueFrom()。',
       '發生錯誤時重新訂閱應使用 retry() 或 retryWhen() operator。',
     ],
+    correctAnswerCode: `this.service.data$.pipe(
+  takeUntilDestroyed() // 元件銷毀時自動取消訂閱
+).subscribe(data => this.data = data);`,
   },
 ];

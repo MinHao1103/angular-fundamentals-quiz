@@ -6,6 +6,7 @@ export interface Question {
   correctIndex: number;
   optionExplanations: readonly string[];
   category?: QuestionCategory;
+  correctAnswerCode?: string;
 }
 
 export const QUESTIONS: readonly Question[] = [
@@ -56,6 +57,9 @@ export const QUESTIONS: readonly Question[] = [
       '.read() 不存在於 Angular signal API 中。',
       '正確。Signal 本身是一個 getter function，直接呼叫 signal() 即可讀取值，並在 reactive context 中自動追蹤依賴。',
     ],
+    correctAnswerCode: `const count = signal(0);
+count();      // ✓ 正確讀法
+count.value;  // ✗ 不存在`,
   },
   {
     question: 'computed() 的主要用途是？',
@@ -72,6 +76,9 @@ export const QUESTIONS: readonly Question[] = [
       '正確。computed() 會自動追蹤內部使用到的 signal，任一依賴變更時自動重新計算，結果為唯讀。',
       'computed() 與 BehaviorSubject 雖然都能保存值，但 computed 是衍生值，無法直接寫入，用途不同。',
     ],
+    correctAnswerCode: `const price = signal(100);
+const tax = computed(() => price() * 0.05);
+// price 變更時，tax 自動重新計算`,
   },
   {
     question: 'Angular 中，effect() 的用途是？',
@@ -88,6 +95,9 @@ export const QUESTIONS: readonly Question[] = [
       '路由事件應透過 Router.events Observable 或路由 Guards 處理，與 effect() 無關。',
       '清除訂閱應使用 takeUntilDestroyed() 搭配 DestroyRef，或在 ngOnDestroy 中處理。',
     ],
+    correctAnswerCode: `effect(() => {
+  console.log('count 變了：', count());
+});`,
   },
   {
     question: '下列哪個 API 用於在 Angular 函式（非 constructor）中注入依賴？',
@@ -104,6 +114,9 @@ export const QUESTIONS: readonly Question[] = [
       '正確。inject() 可在 injection context（元件欄位初始化、constructor 執行期間）中呼叫，是現代 Angular 推薦的注入方式。',
       'ReflectiveInjector 已於 Angular v5 棄用，不應在新專案中使用。',
     ],
+    correctAnswerCode: `export class MyComponent {
+  private service = inject(MyService); // ✓ 現代寫法
+}`,
   },
   {
     question: 'Angular 路由中，要對元件進行 lazy loading，應使用哪個屬性？',
@@ -120,6 +133,11 @@ export const QUESTIONS: readonly Question[] = [
       '正確。loadComponent 接受回傳 standalone 元件的動態 import，Angular 會在導航時才載入該 chunk。',
       'asyncComponent 並不存在於 Angular 路由 API 中。',
     ],
+    correctAnswerCode: `{
+  path: 'dashboard',
+  loadComponent: () =>
+    import('./dashboard').then(m => m.DashboardComponent),
+}`,
   },
   {
     question: 'Angular 原生控制流 @for 中，哪個是必填的？',
@@ -136,6 +154,9 @@ export const QUESTIONS: readonly Question[] = [
       '@empty 是選填區塊，用於陣列為空時顯示替代內容，不是必填。',
       'index as i 是選填的索引別名，只在需要使用索引時才加入。',
     ],
+    correctAnswerCode: `@for (item of items; track item.id) {
+  <li>{{ item.name }}</li>
+}`,
   },
   {
     question: 'ChangeDetectionStrategy.OnPush 會在哪種情況下觸發變更偵測？',
@@ -168,5 +189,6 @@ export const QUESTIONS: readonly Question[] = [
       'ImageOptimizer 並不存在於 Angular 標準函式庫中。',
       '正確。NgOptimizedImage 來自 @angular/common，提供自動 lazy loading、LCP 優化、尺寸警告等功能，使用 [ngSrc] 屬性替代 src。',
     ],
+    correctAnswerCode: `<img ngSrc="hero.jpg" width="800" height="400" />`,
   },
 ];

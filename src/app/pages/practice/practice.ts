@@ -66,6 +66,9 @@ function filteredAndShuffled(category: FilterCategory): Question[] {
             </div>
             @if (isAnswered()) {
               <p class="option-explanation">{{ currentQuestion().optionExplanations[$index] }}</p>
+              @if ($index === currentQuestion().correctIndex && currentQuestion().correctAnswerCode) {
+                <pre class="code-block">{{ currentQuestion().correctAnswerCode }}</pre>
+              }
             }
           </button>
         }

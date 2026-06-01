@@ -21,6 +21,20 @@ body {
   border-radius: 4px;
 }
 
+.code-block {
+  margin: 0.5rem 0 0;
+  padding: 0.75rem 1rem;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border-radius: 6px;
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  text-align: left;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
